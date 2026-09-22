@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flamingo: Grant Runner — nano-spiel</title>
+<meta name="description" content="A flamingo-shaped drone loses altitude every second. Match stacks of cash to lift it, four in a row drops a bomb. Free Android game, English and Ukrainian.">
+<link rel="icon" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root {
+  --bg: #161826;
+  --bg-2: #1d2033;
+  --line: #2c3047;
+  --ink: #f2f3f8;
+  --dim: #a3a8bd;
+  --faint: #6f7590;
+  --gold: #ffd76a;
+  --pink: #ff7ab8;
+  --green: #6ee36e;
+  --amber: #ffb43d;
+  --red: #ff5d5d;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 17px/1.65 "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--gold); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 22px; }
+
+/* ---- шапка сайта ---- */
+.nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9;
+  background: rgba(22,24,38,.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 58px; }
+.brand { font-weight: 800; letter-spacing: -.01em; color: var(--ink); font-size: 19px; }
+.brand span { color: #f0842a; }
+.nav a.back { font: 500 14px/1 "Poppins", sans-serif; color: var(--dim); }
+
+.eyebrow {
+  display: inline-block;
+  font: 600 11px/1 "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(255,215,106,.4);
+  border-radius: 999px;
+  padding: 7px 14px;
+}
+
+/* ---- герой ---- */
+.hero { border-bottom: 1px solid var(--line); background: linear-gradient(180deg, #1b2433 0%, var(--bg) 100%); }
+.hero .wrap { padding-block: 54px 0; }
+h1 {
+  font-weight: 800;
+  font-size: clamp(38px, 7vw, 76px);
+  line-height: 1.02;
+  letter-spacing: -.03em;
+  margin: 20px 0 0;
+  text-wrap: balance;
+}
+h1 b { color: var(--pink); font-weight: 800; }
+.sub { margin: 14px 0 0; font: 500 19px/1.45 "IBM Plex Mono", monospace; color: var(--gold); }
+.sub em { display: block; color: var(--dim); font-style: normal; font-size: 16px; margin-top: 4px; }
+.intro { margin: 22px 0 0; max-width: 60ch; color: var(--dim); }
+.intro strong { color: var(--ink); font-weight: 600; }
+.hero-shot { margin-top: 34px; border: 1px solid var(--line); border-bottom: 0; border-radius: 14px 14px 0 0; overflow: hidden; }
+
+/* ---- приборная строка ---- */
+.instruments {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.inst { background: var(--bg); padding: 20px 22px; }
+.inst b {
+  display: block;
+  font: 600 24px/1.1 "IBM Plex Mono", monospace;
+  font-variant-numeric: tabular-nums; margin-bottom: 5px;
+}
+.inst span {
+  font: 500 11px/1.4 "IBM Plex Mono", monospace;
+  letter-spacing: .15em; text-transform: uppercase; color: var(--faint);
+}
+
+section { padding-block: 66px; }
+h2 {
+  font-weight: 700; font-size: clamp(25px, 3.2vw, 34px);
+  line-height: 1.12; letter-spacing: -.02em;
+  margin: 16px 0 16px; text-wrap: balance;
+}
+p { max-width: 62ch; }
+.lede { color: var(--dim); font-size: 18px; }
+
+/* ---- галерея ---- */
+.shots { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 30px; }
+.shot { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--bg-2); }
+.shot.wide { grid-column: 1 / -1; }
+.shot figcaption {
+  display: flex; gap: 12px; align-items: baseline;
+  padding: 13px 16px; border-top: 1px solid var(--line);
+  font-size: 14.5px; color: var(--dim); line-height: 1.5;
+}
+.shot figcaption b {
+  font: 600 11px/1.6 "IBM Plex Mono", monospace;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--gold); white-space: nowrap;
+}
+
+/* ---- правила ---- */
+.rules { border-top: 1px solid var(--line); margin-top: 26px; }
+.rule {
+  display: grid; grid-template-columns: 190px 1fr; gap: 16px;
+  padding: 15px 2px; border-bottom: 1px solid var(--line); align-items: baseline;
+}
+.rule dt {
+  font: 600 12.5px/1.5 "IBM Plex Mono", monospace;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--gold);
+}
+.rule dd { margin: 0; }
+.rule dd em { color: var(--dim); font-style: normal; }
+
+/* ---- снижение ---- */
+.sink { width: 100%; border-collapse: collapse; margin-top: 24px; font-variant-numeric: tabular-nums; }
+.sink th, .sink td { text-align: left; padding: 10px 14px 10px 0; border-bottom: 1px solid var(--line); }
+.sink th { font: 500 11px/1.4 "IBM Plex Mono", monospace; letter-spacing: .15em; text-transform: uppercase; color: var(--faint); }
+.sink td { font: 500 15px/1.4 "IBM Plex Mono", monospace; }
+.bar { display: block; height: 8px; min-width: 90px; background: var(--line); border-radius: 4px; position: relative; }
+.bar i { position: absolute; inset: 0 auto 0 0; border-radius: 4px; }
+
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 22px; margin-top: 28px; }
+.fact { border-left: 2px solid var(--line); padding-left: 16px; }
+.fact b { display: block; font: 600 15px/1.5 "IBM Plex Mono", monospace; margin-bottom: 3px; }
+.fact span { color: var(--dim); font-size: 15px; }
+
+footer { border-top: 1px solid var(--line); padding-block: 30px 46px; color: var(--faint); font-size: 14.5px; }
+footer p { max-width: none; margin: 0 0 8px; }
+
+@media (max-width: 760px) {
+  .instruments { grid-template-columns: repeat(2, 1fr); }
+  .shots { grid-template-columns: 1fr; }
+  .rule { grid-template-columns: 1fr; gap: 5px; }
+  section { padding-block: 48px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="/">nano<span>spiel</span></a>
+    <a class="back" href="/">← all apps</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Android game · free</span>
+    <h1>Flamingo: <b>Grant Runner</b></h1>
+    <p class="sub">pork-barrel the grants — gain altitude
+      <em>пиляй гранти — набирай висоту</em></p>
+    <p class="intro">A flamingo-shaped drone heads east and loses altitude every second of the flight.
+      The only thing that lifts it is the match-3 board at the bottom of the screen:
+      <strong>every stack of cash you clear is another $1,000 of grant money pork-barrelled into
+      altitude</strong>. Four in a row also drops a bomb on whatever is coming up.</p>
+    <figure class="hero-shot">
+      <img src="shots/flight.jpg" width="1440" height="810"
+           alt="The drone flies over a burning refinery while the money board fills the bottom of the screen">
+    </figure>
+  </div>
+</header>
+
+<div class="instruments">
+  <div class="inst"><b>328 m</b><span>ceiling</span></div>
+  <div class="inst"><b>3.5 → 42</b><span>sink, m/s</span></div>
+  <div class="inst"><b>10 × 4</b><span>board</span></div>
+  <div class="inst"><b>$1 000</b><span>per pack</span></div>
+</div>
+
+<main class="wrap">
+
+  <section>
+    <span class="eyebrow">the sortie</span>
+    <h2>Two or three minutes, and every rooftop is a deadline</h2>
+    <p class="lede">The sink accelerates. The first minute is gentle; by the second you are falling 27
+      metres a second. A red alarm across the top of the screen lights up when the silhouette ahead is
+      going to be too tall.</p>
+    <div class="shots">
+      <figure class="shot wide">
+        <img src="shots/strike.jpg" width="1440" height="810" loading="lazy"
+             alt="A bomb detonates on a depot; smoke rises past the drone">
+        <figcaption><b>bomb away</b> Four in a row drops a bomb on the next unburnt target. Refineries and airbases pay more than depots.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="shots/pop.jpg" width="1440" height="810" loading="lazy"
+             alt="Three gold bars dissolve into golden crumbs as the match clears">
+        <figcaption><b>a match clears</b> Stacks come apart into dust — every colour has its own frame.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="shots/alarm.jpg" width="1440" height="810" loading="lazy"
+             alt="A red gradient pulses across the top of the screen as a tall building approaches">
+        <figcaption><b>collision alarm</b> It pulses faster the closer the roof gets.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="shots/mushroom.jpg" width="1440" height="810" loading="lazy"
+             alt="A mushroom cloud rises from the ground line behind the board">
+        <figcaption><b>big target</b> Refineries and airbases go up with a mushroom cloud on the ground line.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="shots/melt.jpg" width="1440" height="810" loading="lazy"
+             alt="The board collapses downward as the drone explodes">
+        <figcaption><b>drone down</b> Hit a building and the board itself falls apart under you.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="shots/menu-en.jpg" width="1440" height="810" loading="lazy"
+             alt="The start screen in English with the rules listed on the right">
+        <figcaption><b>english</b> The rules live on the start screen and stay out of the way in flight.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="shots/menu-uk.jpg" width="1440" height="810" loading="lazy"
+             alt="The same start screen in Ukrainian">
+        <figcaption><b>українська</b> The whole interface, picked from your system language.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">how it plays</span>
+    <h2>Every match is priced in metres</h2>
+    <dl class="rules">
+      <div class="rule"><dt>each pack</dt><dd>$1 000 pork-barrelled <em>— the number at the top of the screen</em></dd></div>
+      <div class="rule"><dt>3 in a row</dt><dd>+33 m of altitude</dd></div>
+      <div class="rule"><dt>4 in a row</dt><dd>+63 m and one bomb</dd></div>
+      <div class="rule"><dt>5 or more</dt><dd>+87 m and two bombs</dd></div>
+      <div class="rule"><dt>cascade</dt><dd>×1.25 altitude and +1 bomb per level</dd></div>
+      <div class="rule"><dt>points</dt><dd>100 × km + 10 × packs + 0.1 × target value + cascades <em>— the record counts the whole sortie</em></dd></div>
+    </dl>
+
+    <table class="sink">
+      <thead>
+        <tr><th scope="col">second</th><th scope="col">sink</th><th scope="col">pressure</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>0</td><td>3.5 m/s</td><td><span class="bar"><i style="width:8%;background:var(--green)"></i></span></td></tr>
+        <tr><td>30</td><td>5.0 m/s</td><td><span class="bar"><i style="width:12%;background:var(--green)"></i></span></td></tr>
+        <tr><td>60</td><td>9.4 m/s</td><td><span class="bar"><i style="width:22%;background:var(--green)"></i></span></td></tr>
+        <tr><td>90</td><td>16.7 m/s</td><td><span class="bar"><i style="width:40%;background:var(--amber)"></i></span></td></tr>
+        <tr><td>120</td><td>27.0 m/s</td><td><span class="bar"><i style="width:64%;background:var(--amber)"></i></span></td></tr>
+        <tr><td>180</td><td>42.0 m/s</td><td><span class="bar"><i style="width:100%;background:var(--red)"></i></span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <span class="eyebrow">the build</span>
+    <h2>What is in the package</h2>
+    <div class="facts">
+      <div class="fact"><b>Android 8.0+</b><span>Landscape, phones and tablets. 28 MB.</span></div>
+      <div class="fact"><b>English · Українська</b><span>Follows your system language, switchable in one tap.</span></div>
+      <div class="fact"><b>No ads, no purchases</b><span>Nothing to buy, nothing to unlock.</span></div>
+      <div class="fact"><b>No network</b><span>Never opens a connection. Works in airplane mode.</span></div>
+    </div>
+    <p class="lede" style="margin-top:28px">Coming to Google Play. The game collects no data at all —
+      see the <a href="/privacy-policy-flamingo">privacy policy</a>.</p>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p><b style="color:var(--dim)">Flamingo: Grant Runner</b> — nano-spiel, Vienna, 2026. Built in Unity.</p>
+  <p>The refineries, hangars and depots in the game are fictional, and so is Wildfruits.</p>
+</footer>
+
+</body>
+</html>
